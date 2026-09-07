@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endocrine Pathology Question Bank</title>
+  <style>
+    :root {
+      --bg: #a2ecf8;
+      --card: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --accent: #2563eb;
+      --correct-bg: #ecfdf5;
+      --correct-border: #10b981;
+      --correct-text: #065f46;
+      --wrong-bg: #fef2f2;
+      --wrong-border: #ef4444;
+      --wrong-text: #991b1b;
+      --hint-bg: #fffbeb;
+      --hint-border: #f59e0b;
+      --hint-text: #92400e;
+      --surface-muted: #f8fafc;
+      --question-text: #1e293b;
+      --panel-text: #334155;
+      --strong-text: #0f172a;
+      --button-hover: #f1f5f9;
+      --button-hover-border: #cbd5e1;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --accent: #60a5fa;
+      --surface-muted: #263449;
+      --question-text: #f8fafc;
+      --panel-text: #cbd5e1;
+      --strong-text: #f8fafc;
+      --button-hover: #334155;
+      --button-hover-border: #475569;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 24px 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+    }
+
+    .title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .creator-tag {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      opacity: 0.85;
+      letter-spacing: 0.3px;
+    }
+
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .controls-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--button-hover);
+      border-color: var(--button-hover-border);
+    }
+
+    .mcq-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .question-stem {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--question-text);
+    }
+
+    .hint-btn {
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: #475569;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .hint-btn:hover {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      color: #92400e;
+    }
+
+    .hint-box {
+      display: none;
+      background: var(--hint-bg);
+      border-left: 4px solid var(--hint-border);
+      color: var(--hint-text);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+
+    .options-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .option-btn {
+      text-align: left;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: var(--text-main);
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      background-color: var(--surface-muted);
+      border-color: var(--button-hover-border);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-btn.correct {
+      background-color: var(--correct-bg) !important;
+      border-color: var(--correct-border) !important;
+      color: var(--correct-text) !important;
+      font-weight: 600;
+    }
+
+    .option-btn.incorrect {
+      background-color: var(--wrong-bg) !important;
+      border-color: var(--wrong-border) !important;
+      color: var(--wrong-text) !important;
+    }
+
+    .roast-banner {
+      display: none;
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #fff1f2;
+      border-left: 4px solid #f43f5e;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #9f1239;
+    }
+
+    .explanation-panel {
+      margin-top: 12px;
+      padding: 12px 16px;
+      background: var(--surface-muted);
+      border-left: 4px solid var(--accent);
+      border-radius: 4px;
+      font-size: 0.88rem;
+      color: var(--panel-text);
+      display: none;
+    }
+
+    .explanation-panel strong {
+      color: var(--strong-text);
+    }
+
+    footer {
+      text-align: center;
+      padding: 24px 0 12px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="title-row">
+        <h1>Pathology — Endocrine System</h1>
+        <span class="creator-tag">created by Ana Mohammed</span>
+      </div>
+      <div class="controls-bar">
+        <span id="scoreTracker">Score: 0 / 0 answered</span>
+        <div class="controls-actions">
+          <button class="btn-secondary" id="themeToggle" onclick="toggleTheme()">Dark Mode</button>
+          <button class="btn-secondary" onclick="exportResults()">Export Results</button>
+          <button class="btn-secondary" onclick="printResults()">Print Results</button>
+          <button class="btn-secondary" onclick="resetQuiz()">Reset Progress</button>
+        </div>
+      </div>
+    </header>
+
+    <div id="quizContainer"></div>
+
+    <footer>
+      <span>Endocrine Pathology Comprehensive Module</span>
+    </footer>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        id: 1,
+        question: "Which of the following features best differentiates Graves disease from toxic multinodular goiter?",
+        options: [
+          "Presence of TSH receptor antibodies",
+          "Increased radioactive iodine uptake",
+          "Presence of thyroid nodules on imaging",
+          "Increased free T4 levels"
+        ],
+        answer: 0,
+        hint: "Think about the unique autoimmune etiology driving diffuse follicular stimulation.",
+        roast: "You are cooked. TSH receptor antibodies literally define Graves auto-stimulation. Go reread Chapter 1.",
+        explanation: "Thyroid-stimulating immunoglobulins (TSI/TRAb) are specific to Graves disease. Both disorders can present with elevated free T4 and suppressed TSH, but only Graves is driven by these circulating antibodies."
+      },
+      {
+        id: 2,
+        question: "Which of the following is the most common cause of Addison disease in developed countries?",
+        options: [
+          "Tuberculosis",
+          "Autoimmune adrenalitis",
+          "Metastatic carcinoma",
+          "Fungal infections"
+        ],
+        answer: 1,
+        hint: "Look within the immune system, not an infectious bug.",
+        roast: "Are we practicing medicine in 1910? TB is only the primary culprit in developing nations. Autoimmune adrenalitis takes the crown here.",
+        explanation: "In developed countries, autoimmune adrenalitis causes 60–75% of primary chronic adrenal insufficiency cases. Tuberculosis remains the leading etiology in developing nations."
+      },
+      {
+        id: 3,
+        question: "In Sheehan syndrome, which of the following pituitary hormones is typically affected first?",
+        options: [
+          "Growth hormone",
+          "Prolactin",
+          "ACTH",
+          "TSH"
+        ],
+        answer: 0,
+        hint: "Pituitary hormones fail in an orderly progression: G → L → F → T → A.",
+        roast: "You fell for the classic trap! Just because she can't lactate doesn't mean Prolactin was hit first anatomically. GH takes the first blow.",
+        explanation: "Anterior pituitary ischemic necrosis typically compromises hormone output in an orderly cascade: GH is lost earliest, followed by LH/FSH, TSH, and finally ACTH."
+      },
+      {
+        id: 4,
+        question: "A 65-year-old woman with osteoporosis, kidney stones, and peptic ulcers is diagnosed with primary hyperparathyroidism. What is the most common underlying pathology?",
+        options: [
+          "Parathyroid carcinoma",
+          "Parathyroid adenoma",
+          "Parathyroid hyperplasia",
+          "Ectopic PTH secretion"
+        ],
+        answer: 1,
+        hint: "Solitary glandular overgrowth accounts for over 80% of these cases.",
+        roast: "Bones, stones, groans, and psychiatric overtones... yet you missed a solitary adenoma? Truly cooked.",
+        explanation: "A solitary parathyroid adenoma accounts for approximately 85–90% of primary hyperparathyroidism cases, whereas 4-gland hyperplasia accounts for ~10–15%."
+      },
+      {
+        id: 5,
+        question: "A 42-year-old woman presents with heat intolerance, palpitations, and weight loss. Her thyroid biopsy shows lymphocytic infiltration and germinal center formation. What is the most likely diagnosis?",
+        options: [
+          "Graves disease",
+          "Hashimoto thyroiditis",
+          "Subacute granulomatous thyroiditis",
+          "Riedel thyroiditis"
+        ],
+        answer: 1,
+        hint: "Chronic lymphocytic infiltration with prominent tertiary germinal centers and Hürthle cells.",
+        roast: "Distracted by the transient hyperthyroid phase, were you? That histology screams Hashimoto's 'hashitoxicosis'.",
+        explanation: "Dense lymphocytic infiltrates forming lymphoid germinal centers are pathognomonic of Hashimoto thyroiditis. Early follicular destruction releases preformed hormones, causing transient hyperthyroidism (hashitoxicosis)."
+      },
+      {
+        id: 6,
+        question: "Which of the following is most likely seen in an insulinoma?",
+        options: [
+          "Hyperglycemia",
+          "Increased C-peptide levels",
+          "ACTH hypersecretion",
+          "Decreased insulin levels"
+        ],
+        answer: 1,
+        hint: "Endogenous insulin synthesis cleaves proinsulin into equal parts insulin and connecting peptide.",
+        roast: "An insulin-secreting tumor causing hyperglycemia? Pack up your scrubs.",
+        explanation: "Insulinomas autonomously secrete endogenous proinsulin, resulting in elevated serum insulin and equimolar elevations of C-peptide alongside hypoglycemia."
+      },
+      {
+        id: 7,
+        question: "Which of the following is the most common cause of death in patients with untreated acromegaly?",
+        options: [
+          "Stroke",
+          "Myocardial infarction",
+          "Respiratory failure",
+          "Colorectal carcinoma"
+        ],
+        answer: 1,
+        hint: "Excess GH and IGF-1 produce progressive concentric cardiomyopathy and congestive heart failure.",
+        roast: "Colorectal screening is important, but their hearts give out long before tumors kill them. Cardiovascular collapse is number one.",
+        explanation: "Cardiovascular complications—principally dilated/hypertrophic cardiomyopathy, arrhythmias, and coronary artery disease leading to myocardial infarction—cause roughly 60% of deaths in untreated acromegaly."
+      },
+      {
+        id: 8,
+        question: "Which of the following hormones is increased in Zollinger-Ellison syndrome?",
+        options: [
+          "Insulin",
+          "Gastrin",
+          "Glucagon",
+          "Somatostatin"
+        ],
+        answer: 1,
+        hint: "Think refractory peptic ulcers caused by a neuroendocrine tumor of the duodenum or pancreas.",
+        roast: "Zollinger-Ellison syndrome without gastrin? That is like a burger without a patty. Try again.",
+        explanation: "Zollinger-Ellison syndrome is caused by a gastrinoma hypersecreting gastrin, which over-stimulates parietal cells to secrete hydrochloric acid."
+      },
+      {
+        id: 9,
+        question: "Which of the following histopathologic findings is characteristic of subacute granulomatous thyroiditis (de Quervain thyroiditis)?",
+        options: [
+          "Lymphocytic infiltration with germinal centers",
+          "Multinucleated giant cells and granulomas",
+          "Papillary projections with psammoma bodies",
+          "Fibrosis and extensive collagen deposition"
+        ],
+        answer: 1,
+        hint: "The disease name itself tells you what inflammatory reaction to seek.",
+        roast: "Granulomatous is literally in the name of the disease! How did you bypass multinucleated giant cells?",
+        explanation: "De Quervain thyroiditis demonstrates disrupted follicles surrounded by a mixed inflammatory infiltrate with prominent multinucleated histiocytic giant cells forming non-caseating microgranulomas."
+      },
+      {
+        id: 10,
+        question: "A 50-year-old woman with chronic kidney disease develops secondary hyperparathyroidism. Which of the following biochemical findings is expected?",
+        options: [
+          "Increased calcium, increased PTH",
+          "Increased phosphate, increased PTH",
+          "Decreased phosphate, decreased PTH",
+          "Normal calcium, decreased PTH"
+        ],
+        answer: 1,
+        hint: "Failing kidneys cannot excrete phosphate or 1-alpha-hydroxylate vitamin D.",
+        roast: "Basic renal biochemistry just flatlined. CKD retains phosphate, driving PTH through the roof.",
+        explanation: "In CKD, decreased GFR causes phosphate retention (hyperphosphatemia) and reduced calcitriol production, causing hypocalcemia. Both factors vigorously stimulate parathyroid hyperplasia and secondary PTH elevation."
+      },
+      {
+        id: 11,
+        question: "Which of the following is the most common site of metastasis for follicular thyroid carcinoma?",
+        options: [
+          "Lymph nodes",
+          "Lungs",
+          "Liver",
+          "Spleen"
+        ],
+        answer: 1,
+        hint: "Follicular carcinoma spreads hematogenously rather than lymphatically, prioritizing vascular beds.",
+        roast: "Did you pick lymph nodes? That's Papillary! Follicular loves blood vessels and flies straight to the lungs and bone.",
+        explanation: "Unlike papillary carcinoma (which spreads via lymphatics), follicular thyroid carcinoma characteristically spreads hematogenously, targeting the lungs and bone."
+      },
+      {
+        id: 12,
+        question: "Which of the following is the most common functional pituitary adenoma?",
+        options: [
+          "Somatotroph adenoma",
+          "Corticotroph adenoma",
+          "Prolactinoma",
+          "Gonadotroph adenoma"
+        ],
+        answer: 2,
+        hint: "Galactorrhea, amenorrhea, and loss of libido are classic clues.",
+        roast: "Missing prolactinoma is an absolute endocrine crime. It represents ~30% of all functional adenomas.",
+        explanation: "Prolactinomas (lactotroph adenomas) are the most prevalent functioning pituitary neuroendocrine tumors, accounting for nearly 30–40% of all cases."
+      },
+      {
+        id: 13,
+        question: "Which adrenal cortical layer is primarily responsible for aldosterone production?",
+        options: [
+          "Zona glomerulosa",
+          "Zona fasciculata",
+          "Zona reticularis",
+          "Medulla"
+        ],
+        answer: 0,
+        hint: "GFR corresponds to Salt, Sugar, Sex.",
+        roast: "GFR = Salt, Sugar, Sex. G is for Glomerulosa, Salt is for Aldosterone. Did you sleep through histology?",
+        explanation: "From superficial to deep: Zona glomerulosa produces mineralocorticoids (aldosterone), Zona fasciculata produces glucocorticoids (cortisol), and Zona reticularis produces androgens (DHEA)."
+      },
+      {
+        id: 14,
+        question: "A pheochromocytoma is most likely to arise from which of the following structures?",
+        options: [
+          "Zona fasciculata",
+          "Adrenal medulla",
+          "Zona glomerulosa",
+          "Pituitary gland"
+        ],
+        answer: 1,
+        hint: "Look for catecholamine-producing chromaffin cells derived from neural crest tissue.",
+        roast: "Cortex makes steroids, Medulla makes adrenaline. Pheos make adrenaline. Do the math.",
+        explanation: "Pheochromocytomas arise from the chromaffin cells of the adrenal medulla (derived from neural crest cells), which produce epinephrine and norepinephrine."
+      },
+      {
+        id: 15,
+        question: "A patient with Cushing syndrome undergoes a high-dose dexamethasone suppression test. Serum cortisol remains elevated. Which of the following is the most likely cause?",
+        options: [
+          "Exogenous corticosteroid use",
+          "Adrenal adenoma",
+          "Pituitary adenoma",
+          "Ectopic ACTH production"
+        ],
+        answer: 3,
+        hint: "Neoplasms (e.g., small cell lung carcinoma) completely ignore high-dose steroid negative feedback.",
+        roast: "Pituitary adenomas suppress under high-dose dex; ectopic ACTH tumors couldn't care less. You just got outsmarted by a small cell lung cancer.",
+        explanation: "Cushing disease (pituitary adenoma) retains minimal negative feedback and will suppress with high-dose dexamethasone. Ectopic ACTH production (e.g., small cell lung cancer) or autonomous adrenal tumors fail to suppress."
+      },
+      {
+        id: 16,
+        question: "Which of the following histological findings is characteristic of a well-differentiated pancreatic neuroendocrine tumor?",
+        options: [
+          "Sheets of large pleomorphic cells",
+          "Nesting pattern with salt-and-pepper chromatin",
+          "Signet-ring cells with mucin production",
+          "Necrosis and increased mitotic activity"
+        ],
+        answer: 1,
+        hint: "Neuroendocrine nuclei display fine, granular, evenly dispersed chromatin.",
+        roast: "Salt-and-pepper chromatin is Pathology 101 for neuroendocrine tumors. Season your knowledge.",
+        explanation: "Neuroendocrine tumors are characterized by uniform cells organized in trabeculae, ribbons, or nests, featuring classic 'salt-and-pepper' finely stippled nuclear chromatin."
+      },
+      {
+        id: 17,
+        question: "RET gene mutations are most commonly associated with which of the following thyroid pathologies?",
+        options: [
+          "Papillary thyroid carcinoma",
+          "Follicular thyroid carcinoma",
+          "Medullary thyroid carcinoma",
+          "Hashimoto thyroiditis"
+        ],
+        answer: 2,
+        hint: "Think MEN2 syndromes originating in calcitonin-secreting parafollicular C-cells.",
+        roast: "Parafollicular C cells and MEN2 are screaming RET proto-oncogene at you right now.",
+        explanation: "Germline activating mutations in the RET proto-oncogene are responsible for MEN 2A and 2B, both of which feature medullary thyroid carcinoma with near-total penetrance."
+      },
+      {
+        id: 18,
+        question: "Which of the following is the most common cause of secondary hyperparathyroidism?",
+        options: [
+          "Parathyroid adenoma",
+          "Chronic kidney disease",
+          "Vitamin D intoxication",
+          "Lithium therapy"
+        ],
+        answer: 1,
+        hint: "Renal failure breaks the mineral metabolism loop.",
+        roast: "Adenomas cause primary hyperparathyroidism; failing nephrons cause secondary. Check your terminology!",
+        explanation: "Chronic kidney disease is the overwhelmingly dominant cause of secondary hyperparathyroidism due to phosphate retention and impaired 1,25-(OH)2-D3 synthesis."
+      },
+      {
+        id: 19,
+        question: "Which of the following is a major risk factor for developing a thyroid anaplastic carcinoma?",
+        options: [
+          "Iodine deficiency",
+          "Long-standing goiter",
+          "RET gene mutation",
+          "RAS gene mutation"
+        ],
+        answer: 1,
+        hint: "Highly undifferentiated, lethal tumors often develop as dedifferentiation from long-standing lesions.",
+        roast: "Anaplastic doesn't just spawn out of thin air; it dedifferentiates from longstanding goiters and differentiated cancers.",
+        explanation: "Anaplastic thyroid carcinomas commonly arise via the dedifferentiation of long-standing multinodular goiters or pre-existing low-grade follicular/papillary thyroid carcinomas."
+      },
+      {
+        id: 20,
+        question: "Which of the following is the most common cause of ectopic ACTH production?",
+        options: [
+          "Small cell lung carcinoma",
+          "Renal cell carcinoma",
+          "Medullary thyroid carcinoma",
+          "Pancreatic neuroendocrine tumor"
+        ],
+        answer: 0,
+        hint: "An aggressive neuroendocrine lung tumor in smokers.",
+        roast: "Over half of all ectopic ACTH cases come straight from small cell lung cancer. Back to pulmonology you go.",
+        explanation: "Small cell lung carcinoma (SCLC) accounts for >50% of all cases of ectopic ACTH secretion, resulting in rapid-onset Cushing syndrome."
+      },
+      {
+        id: 21,
+        question: "Which of the following findings is characteristic of amyloid deposition in pancreatic islets of Langerhans?",
+        options: [
+          "Type 1 Diabetes Mellitus",
+          "Type 2 Diabetes Mellitus",
+          "Insulinoma",
+          "Autoimmune pancreatitis"
+        ],
+        answer: 1,
+        hint: "Islet amyloid polypeptide (amylin) co-secreted with insulin precipitates over decades of beta-cell stress.",
+        roast: "Type 1 is autoimmune insulitis. Amylin burns out in Type 2! Don't mix up the two diabetes siblings.",
+        explanation: "In Type 2 DM, chronic compensatory hypersecretion of amylin (islet amyloid polypeptide) alongside insulin leads to insoluble amyloid fibril deposition in the islets of Langerhans."
+      },
+      {
+        id: 22,
+        question: "A 45-year-old woman presents with hypertension, hypokalemia, and metabolic alkalosis. Which of the following adrenal tumors is most likely responsible?",
+        options: [
+          "Pheochromocytoma",
+          "Adrenal cortical carcinoma",
+          "Aldosterone-producing adenoma",
+          "Non-functioning adrenal adenoma"
+        ],
+        answer: 2,
+        hint: "Conn syndrome features autonomous mineralocorticoid release.",
+        roast: "Hypertension + low potassium = Conn syndrome until proven otherwise. Adenoma takes it.",
+        explanation: "An aldosterone-producing adrenal adenoma (Conn syndrome) triggers excess distal tubular sodium resorption and potassium/hydrogen excretion, resulting in hypertension, hypokalemia, and alkalosis."
+      },
+      {
+        id: 23,
+        question: "Which of the following best describes Waterhouse-Friderichsen syndrome?",
+        options: [
+          "Chronic adrenal insufficiency due to autoimmune destruction",
+          "Adrenal hemorrhage associated with meningococcemia",
+          "Pituitary infarction following postpartum hemorrhage",
+          "Hyperaldosteronism due to adrenal hyperplasia"
+        ],
+        answer: 1,
+        hint: "Overwhelming septicemic shock with petechial purpura and acute bilateral adrenal apoplexy.",
+        roast: "Waterhouse-Friderichsen is bilateral adrenal destruction caused by Neisseria meningitidis. Unforgivable miss!",
+        explanation: "Waterhouse-Friderichsen syndrome is acute primary adrenal insufficiency secondary to massive, typically bilateral adrenal hemorrhage triggered by fulminant Neisseria meningitidis bacteremia."
+      },
+      {
+        id: 24,
+        question: "A 55-year-old woman presents with hypertension, hypokalemia, and metabolic alkalosis. Plasma renin activity is suppressed. What is the most likely diagnosis?",
+        options: [
+          "Pheochromocytoma",
+          "Cushing syndrome",
+          "Primary hyperaldosteronism",
+          "Secondary hyperaldosteronism"
+        ],
+        answer: 2,
+        hint: "Autonomous adrenal hormone release exerts negative feedback on renal juxtaglomerular cells.",
+        roast: "If renin is shut off, the problem is in the adrenal cortex itself, not the kidneys. It's Primary!",
+        explanation: "Autonomous aldosterone secretion expands plasma volume, increasing renal perfusion pressure and suppressing plasma renin activity."
+      },
+      {
+        id: 25,
+        question: "A thyroid fine-needle aspiration biopsy reveals spindle-shaped cells with amyloid deposits. What is the most likely diagnosis?",
+        options: [
+          "Papillary thyroid carcinoma",
+          "Medullary thyroid carcinoma",
+          "Follicular thyroid carcinoma",
+          "Hashimoto thyroiditis"
+        ],
+        answer: 1,
+        hint: "Calcitonin precipitates into extracellular amyloid fibrils that stain with Congo red.",
+        roast: "Amyloid in the thyroid = Calcitonin = Medullary carcinoma. Never forget the Congo red apple-green glow.",
+        explanation: "Medullary thyroid carcinoma originates from parafollicular C cells; excess calcitonin precipitates locally as amyloid, which exhibits apple-green birefringence under polarized light on Congo red stain."
+      },
+      {
+        id: 26,
+        question: "A patient presents with episodic headaches, diaphoresis, and palpitations. Plasma metanephrines are elevated. What is the best initial imaging modality?",
+        options: [
+          "Abdominal ultrasound",
+          "CT scan of the abdomen",
+          "MRI of the brain",
+          "Whole-body PET scan"
+        ],
+        answer: 1,
+        hint: "Over 90% of these catecholamine-secreting lesions reside within the adrenal glands.",
+        roast: "Looking for a pheo in the brain? Unless your patient has adrenal tissue in their cranium, scan the belly first.",
+        explanation: "Once biochemical diagnosis of pheochromocytoma is established via elevated metanephrines, an abdominal and pelvic CT (or MRI) is the initial imaging study of choice to locate the adrenal mass."
+      },
+      {
+        id: 27,
+        question: "Which of the following is the most common cause of primary adrenal insufficiency worldwide?",
+        options: [
+          "Autoimmune destruction",
+          "Tuberculosis",
+          "Adrenal metastases",
+          "Waterhouse-Friderichsen syndrome"
+        ],
+        answer: 1,
+        hint: "Focus on the global burden rather than Western hospital data.",
+        roast: "Worldwide was the operative word. Autoimmune rules the West, but infectious TB dominates the globe.",
+        explanation: "While autoimmune destruction is the most frequent cause in developed regions, tuberculosis remains the primary cause of Addison disease globally."
+      },
+      {
+        id: 28,
+        question: "Which of the following tumors is most commonly associated with Zollinger-Ellison syndrome?",
+        options: [
+          "Pheochromocytoma",
+          "Pancreatic neuroendocrine tumor",
+          "Parathyroid adenoma",
+          "Adrenal cortical carcinoma"
+        ],
+        answer: 1,
+        hint: "Gastrinomas originate either in the duodenum or within the endocrine pancreas.",
+        roast: "Gastrin-secreting neuroendocrine tumors: duodenum and pancreas are their territory.",
+        explanation: "Zollinger-Ellison syndrome is caused by a gastrinoma, which is classified pathologically as a neuroendocrine tumor arising within the gastrinoma triangle (duodenum and pancreas)."
+      },
+      {
+        id: 29,
+        question: "Which of the following conditions is associated with an increased risk of parathyroid carcinoma?",
+        options: [
+          "MEN1",
+          "MEN2A",
+          "Hyperparathyroidism-jaw tumor syndrome",
+          "McCune-Albright syndrome"
+        ],
+        answer: 2,
+        hint: "Inactivating germline mutations of the CDC73 (HRPT2) tumor suppressor gene.",
+        roast: "MEN1 has adenomas, but jaw tumor syndrome is famous for producing full-blown parathyroid carcinomas.",
+        explanation: "Hyperparathyroidism-jaw tumor (HPT-JT) syndrome, linked to CDC73 (HRPT2) mutations, confers an extraordinarily high lifetime risk (up to 15%) of parathyroid carcinoma."
+      },
+      {
+        id: 30,
+        question: "Which of the following features is most suggestive of a malignant pheochromocytoma?",
+        options: [
+          "High urinary metanephrines",
+          "Large tumor size (>6 cm)",
+          "Presence of metastases",
+          "Bilateral adrenal involvement"
+        ],
+        answer: 2,
+        hint: "Histology alone cannot prove malignancy in endocrine chromaffin cells.",
+        roast: "Size doesn't matter, and neither do nuclear atypia. For pheos, metastasis is the only true proof of malignancy.",
+        explanation: "There are no definitive histologic or cytologic criteria to distinguish benign from malignant pheochromocytoma; malignancy is defined exclusively by metastasis to non-chromaffin sites."
+      },
+      {
+        id: 31,
+        question: "Which of the following enzyme deficiencies causes congenital adrenal hyperplasia with hypertension and hypokalemia?",
+        options: [
+          "21-hydroxylase deficiency",
+          "11β-hydroxylase deficiency",
+          "17α-hydroxylase deficiency",
+          "3β-hydroxysteroid dehydrogenase deficiency"
+        ],
+        answer: 1,
+        hint: "11-deoxycorticosterone (DOC) accumulates and functions as a weak mineralocorticoid.",
+        roast: "21-hydroxylase loses salt; 11-beta builds up DOC and spikes the blood pressure. You are severely cooked.",
+        explanation: "11β-hydroxylase deficiency halts cortisol conversion, leading to accumulation of 11-deoxycorticosterone (DOC), an active mineralocorticoid that drives sodium retention, hypertension, and hypokalemia."
+      },
+      {
+        id: 32,
+        question: "A patient with chronic renal failure develops secondary hyperparathyroidism. What is the primary cause of increased PTH in this condition?",
+        options: [
+          "Increased serum calcium",
+          "Decreased serum phosphate",
+          "Decreased serum vitamin D",
+          "Increased calcitonin"
+        ],
+        answer: 2,
+        hint: "Failure of renal 1-alpha-hydroxylase drops active calcitriol, releasing the brakes on PTH gene transcription.",
+        roast: "Kidneys can't activate Vitamin D; without calcitriol, the parathyroid runs wild.",
+        explanation: "Failing renal parenchyma fails to 1-alpha-hydroxylate 25-OH vitamin D into active 1,25-(OH)2 vitamin D (calcitriol). Loss of calcitriol removes negative feedback on parathyroid glands and causes hypocalcemia, stimulating massive PTH release."
+      },
+      {
+        id: 33,
+        question: "Which of the following syndromes is most likely to present with mucosal neuromas, medullary thyroid carcinoma, and pheochromocytoma?",
+        options: [
+          "MEN1",
+          "MEN2A",
+          "MEN2B",
+          "Von Hippel-Lindau syndrome"
+        ],
+        answer: 2,
+        hint: "Neuromas on the tongue and lips paired with a marfanoid habitus.",
+        roast: "Parathyroid missing, neuromas present: That's 2B, not 2A!",
+        explanation: "MEN2B is characterized by medullary thyroid carcinoma, pheochromocytoma, ganglioneuromas of the GI tract, mucosal neuromas (lips/tongue), and a marfanoid habitus."
+      },
+      {
+        id: 34,
+        question: "A 55-year-old man presents with multiple episodes of hypoglycemia relieved by food intake. Laboratory studies show high insulin and C-peptide levels. What is the most likely diagnosis?",
+        options: [
+          "Insulinoma",
+          "Type 2 Diabetes Mellitus",
+          "Glucagonoma",
+          "Pheochromocytoma"
+        ],
+        answer: 0,
+        hint: "Whipple's triad with endogenous insulin production.",
+        roast: "Whipple triad right in front of your eyes and you're contemplating glucagonoma?",
+        explanation: "High insulin with high C-peptide during documented hypoglycemia confirms autonomous endogenous insulin secretion characteristic of an insulinoma."
+      },
+      {
+        id: 35,
+        question: "A 35-year-old woman presents with hypercalcemia, kidney stones, and a jaw tumor. Which genetic mutation is most likely involved?",
+        options: [
+          "RET mutation",
+          "TP53 mutation",
+          "MEN1 mutation",
+          "HRPT2 (CDC73) mutation"
+        ],
+        answer: 3,
+        hint: "Parafibromin protein is lost in this autosomal dominant jaw-tumor syndrome.",
+        roast: "Jaw tumors with parathyroid disease = CDC73 (HRPT2). MEN1 was just a distractor.",
+        explanation: "Hyperparathyroidism-jaw tumor syndrome is caused by inactivating germline mutations in HRPT2 (also known as CDC73), which encodes the tumor suppressor parafibromin."
+      },
+      {
+        id: 36,
+        question: "Which of the following is a characteristic clinical feature of a glucagonoma?",
+        options: [
+          "Hyperglycemia and necrolytic migratory erythema",
+          "Recurrent hypoglycemia and weight gain",
+          "Episodic hypertension and diaphoresis",
+          "Diarrhea and peptic ulcers"
+        ],
+        answer: 0,
+        hint: "Look for an erythematous, blistering rash that spreads across the groin and extremities.",
+        roast: "Necrolytic migratory erythema is the ultimate boards buzzword. Missing this means you are well-done.",
+        explanation: "The 4 'D's of glucagonoma: Diabetes (hyperglycemia), Dermatitis (necrolytic migratory erythema), Deep vein thrombosis, and Depression."
+      },
+      {
+        id: 37,
+        question: "In a patient with Graves disease, which of the following lab findings is expected?",
+        options: [
+          "Decreased TSH and increased free T4",
+          "Increased TSH and increased free T4",
+          "Increased TSH and decreased free T4",
+          "Normal TSH and increased free T3"
+        ],
+        answer: 0,
+        hint: "Primary hyperthyroidism exerts vigorous negative feedback on the anterior pituitary.",
+        roast: "Basic endocrine feedback loop failure! High thyroid hormone crushes TSH down to unmeasurable levels.",
+        explanation: "Autoantibodies trigger uninhibited T3/T4 synthesis; circulating thyroid hormones act on the pituitary thyrotrophs to completely suppress TSH secretion."
+      },
+      {
+        id: 38,
+        question: "A 35-year-old woman presents with severe watery diarrhea and hypokalemia. A pancreatic mass is identified on imaging. Which of the following is the most likely cause?",
+        options: [
+          "Gastrinoma",
+          "VIPoma",
+          "Insulinoma",
+          "Somatostatinoma"
+        ],
+        answer: 1,
+        hint: "WDHA syndrome: Watery Diarrhea, Hypokalemia, Achlorhydria.",
+        roast: "Tea-colored stool by the gallon = VIPoma. Verner-Morrison syndrome just waved at you and you missed it.",
+        explanation: "A VIPoma secretes vasoactive intestinal peptide (VIP), causing copious watery secretory diarrhea, hypokalemia, and achlorhydria (WDHA syndrome / pancreatic cholera)."
+      },
+      {
+        id: 39,
+        question: "Which of the following findings is most characteristic of diabetic nephropathy in long-standing diabetes mellitus?",
+        options: [
+          "Glomerular basement membrane thinning",
+          "Kimmelstiel-Wilson nodules",
+          "Crescentic glomerulonephritis",
+          "Immune complex deposition in mesangium"
+        ],
+        answer: 1,
+        hint: "Nodular glomerulosclerosis with rounded, acellular eosinophilic mesangial expansions.",
+        roast: "Kimmelstiel-Wilson nodules are literally synonymous with diabetic nephropathy!",
+        explanation: "Nodular glomerulosclerosis (Kimmelstiel-Wilson lesions)—characterized by rounded PAS-positive lamellated acellular nodules in the mesangial matrix—is pathognomonic for diabetic nephropathy."
+      },
+      {
+        id: 40,
+        question: "A 55-year-old woman with acromegaly is found to have a pituitary adenoma. What is the most likely hormone being secreted?",
+        options: [
+          "Prolactin",
+          "Growth hormone",
+          "ACTH",
+          "TSH"
+        ],
+        answer: 1,
+        hint: "Somatotrophs synthesize the primary driver of hepatic IGF-1 release.",
+        roast: "Acromegaly = Growth Hormone. If you missed this, recheck the definition of the word.",
+        explanation: "Acromegaly in adults is caused by sustained hypersecretion of growth hormone (GH) from a pituitary somatotroph neuroendocrine tumor after epiphyseal plate closure."
+      },
+      {
+        id: 41,
+        question: "A patient with central diabetes insipidus is treated with desmopressin. What is the expected response?",
+        options: [
+          "No change in urine osmolality",
+          "Decreased urine output and increased urine osmolality",
+          "Increased plasma glucose",
+          "Increased sodium excretion"
+        ],
+        answer: 1,
+        hint: "Exogenous dDAVP substitutes for missing hypothalamic vasopressin.",
+        roast: "Providing ADH to someone lacking ADH allows them to concentrate their urine. Physiology holds true.",
+        explanation: "Central DI is caused by a lack of ADH. Supplying synthetic ADH (desmopressin) binds renal V2 receptors, inserting aquaporin channels, concentrating the urine (increasing osmolality), and decreasing total urine volume."
+      },
+      {
+        id: 42,
+        question: "Which of the following is a distinguishing histologic feature of a follicular thyroid carcinoma?",
+        options: [
+          "Psammoma bodies",
+          "Capsular and vascular invasion",
+          "Extensive lymphocytic infiltration",
+          "Nests of neuroendocrine cells"
+        ],
+        answer: 1,
+        hint: "Fine-needle aspiration cannot distinguish adenoma from carcinoma because it cannot evaluate the architecture of the capsule.",
+        roast: "Follicular adenoma vs carcinoma is ALL about invading the capsule and blood vessels. Back to the microscope.",
+        explanation: "Follicular thyroid carcinoma is morphologically differentiated from benign follicular adenomas purely by demonstrating full-thickness capsular penetration and/or vascular invasion."
+      },
+      {
+        id: 43,
+        question: "Which of the following is a hallmark feature of Nelson syndrome?",
+        options: [
+          "Hyperaldosteronism following unilateral adrenalectomy",
+          "Hyperpigmentation after bilateral adrenalectomy",
+          "Hypoglycemia after pituitary adenoma removal",
+          "Hypertension following Cushing disease treatment"
+        ],
+        answer: 1,
+        hint: "Removal of adrenal feedback allows a pre-existing corticotroph microadenoma to grow aggressively, churning out POMC and ACTH.",
+        roast: "No adrenal feedback means massive ACTH and MSH secretion, making the patient look deeply bronzed. Nelson syndrome 101.",
+        explanation: "Nelson syndrome occurs following bilateral adrenalectomy for Cushing disease; loss of cortisol negative feedback leads to aggressive growth of the pituitary corticotroph adenoma, producing high levels of ACTH and melanocyte-stimulating hormone (MSH), resulting in marked hyperpigmentation."
+      },
+      {
+        id: 44,
+        question: "A 40-year-old woman presents with hirsutism, hypertension, and hypokalemia. A CT scan reveals an adrenal mass. Which of the following laboratory findings is most likely?",
+        options: [
+          "Increased renin and aldosterone",
+          "Increased cortisol and suppressed ACTH",
+          "Increased aldosterone and suppressed renin",
+          "Decreased 24-hour urinary metanephrines"
+        ],
+        answer: 1,
+        hint: "An autonomous adrenal cortical tumor secretes glucocorticoids and androgens independently of pituitary control.",
+        roast: "Autonomous adrenal masses shut down the pituitary ACTH faucet through intense negative feedback.",
+        explanation: "An adrenal cortical neoplasm hypersecretes cortisol autonomously, which exerts strong negative feedback at the pituitary and hypothalamus, suppressing ACTH to undetectable levels."
+      },
+      {
+        id: 45,
+        question: "A pancreatic tumor causing diabetes, anemia, and a characteristic rash is most likely secreting which hormone?",
+        options: [
+          "Insulin",
+          "Gastrin",
+          "Glucagon",
+          "Somatostatin"
+        ],
+        answer: 2,
+        hint: "Necrolytic migratory erythema plus mild catabolic diabetes.",
+        roast: "Anemia, diabetes, and a weird rash? That's a Glucagonoma staring you down again.",
+        explanation: "Glucagonomas present with mild diabetes mellitus, normocytic normochromic anemia, venous thrombosis, and the classic necrolytic migratory erythema skin rash."
+      },
+      {
+        id: 46,
+        question: "Which of the following genetic syndromes is associated with insulinomas?",
+        options: [
+          "Von Hippel-Lindau syndrome",
+          "Multiple endocrine neoplasia type 1 (MEN1)",
+          "Li-Fraumeni syndrome",
+          "Cowden syndrome"
+        ],
+        answer: 1,
+        hint: "Pituitary, Parathyroid, Pancreas (the 3 Ps).",
+        roast: "The 3 Ps of MEN1: Parathyroid, Pancreas, Pituitary. Insulinoma is in the Pancreas!",
+        explanation: "MEN1 syndrome (Wermer syndrome) is characterized by tumors of the parathyroids, anterior pituitary, and pancreatic neuroendocrine system (most frequently gastrinomas and insulinomas)."
+      },
+      {
+        id: 47,
+        question: "Which of the following biochemical changes is seen in tertiary hyperparathyroidism?",
+        options: [
+          "Decreased PTH and increased calcium",
+          "Increased PTH and decreased calcium",
+          "Increased PTH and increased calcium",
+          "Normal PTH and normal calcium"
+        ],
+        answer: 2,
+        hint: "Years of secondary stimulation in end-stage renal disease turn the parathyroids completely autonomous.",
+        roast: "Tertiary means the glands went rogue! Autonomous PTH production driving calcium into the stratosphere.",
+        explanation: "In tertiary hyperparathyroidism, chronic secondary hyperparathyroidism leads to irreversible, autonomous, monoclonal nodular hyperplasia of the parathyroid glands, resulting in hypercalcemia alongside markedly elevated PTH."
+      },
+      {
+        id: 48,
+        question: "Which histologic feature is most characteristic of papillary thyroid carcinoma?",
+        options: [
+          "Oncocytic cells with granular cytoplasm",
+          "Sheets of polygonal cells with amyloid deposits",
+          "Nuclear grooves and Orphan Annie eye nuclei",
+          "Follicular architecture with extensive hemorrhage"
+        ],
+        answer: 2,
+        hint: "Optically clear nuclei with central chromatin clearing and longitudinal invaginations.",
+        roast: "Orphan Annie eyes and nuclear grooves! Little Orphan Annie is disappointed in you.",
+        explanation: "Papillary thyroid carcinoma is diagnosed primarily by nuclear features: ground-glass optically clear nuclei ('Orphan Annie eye'), nuclear pseudo-inclusions, and longitudinal nuclear grooves."
+      },
+      {
+        id: 49,
+        question: "Which of the following features best differentiates an adrenal cortical adenoma from an adrenal carcinoma?",
+        options: [
+          "Size of the tumor",
+          "Presence of lipid-laden cells",
+          "Functional hormone production",
+          "Presence of necrosis and invasion"
+        ],
+        answer: 3,
+        hint: "Weiss criteria prioritize vascular/capsular invasion, high mitotic rates, and atypical mitoses.",
+        roast: "Lipid cells and hormone status won't tell you if it's cancer. Tissue invasion and necrosis will.",
+        explanation: "Differentiating adrenocortical adenoma from carcinoma relies on histopathologic features encapsulated in the Weiss criteria: capsular/vascular invasion, high mitotic rate, atypical mitoses, and broad zones of tumor necrosis."
+      },
+      {
+        id: 50,
+        question: "A patient with longstanding diabetes mellitus presents with a fasting glucose of 160 mg/dL. Which pancreatic cells are primarily affected in this disease?",
+        options: [
+          "Alpha cells",
+          "Beta cells",
+          "Delta cells",
+          "Acinar cells"
+        ],
+        answer: 1,
+        hint: "These islet cells synthesize, package, and secrete insulin.",
+        roast: "Beta cells make insulin. Diabetes is an insulin issue. Don't overthink yourself into a wrong answer.",
+        explanation: "Pancreatic beta cells (located centrally within the islets of Langerhans) are responsible for insulin secretion and are the direct target of progressive dysfunction and apoptosis in both Type 1 and Type 2 diabetes."
+      },
+      {
+        id: 51,
+        question: "Which of the following best differentiates follicular adenoma from follicular carcinoma of the thyroid?",
+        options: [
+          "Presence of Hurthle cells",
+          "Absence of capsular and vascular invasion",
+          "Increased mitotic figures",
+          "Presence of psammoma bodies"
+        ],
+        answer: 1,
+        hint: "Benign follicular lesions maintain an intact, continuous fibrous perimeter.",
+        roast: "Adenomas respect personal space; carcinomas invade the capsule and blood vessels.",
+        explanation: "Both follicular adenomas and carcinomas share identical cytologic and architectural appearances; the definitive hallmark of an adenoma is the complete absence of capsular and vascular penetration."
+      },
+      {
+        id: 52,
+        question: "A 40-year-old man presents with chronic diarrhea, peptic ulcers, and a pancreatic mass. Serum gastrin levels are markedly elevated. What is the most likely cause?",
+        options: [
+          "Zollinger-Ellison syndrome",
+          "Insulinoma",
+          "Glucagonoma",
+          "VIPoma"
+        ],
+        answer: 0,
+        hint: "Hypergastrinemia hyper-stimulates parietal cells, generating multiple refractory duodenal/jejunal ulcers.",
+        roast: "Ulcers plus raging diarrhea plus massive gastrin = Zollinger-Ellison. Classic presentation.",
+        explanation: "Zollinger-Ellison syndrome results from an autonomous gastrin-producing neuroendocrine tumor (gastrinoma), causing profound gastric hyperacidity, multiple atypical ulcers, and malabsorptive diarrhea."
+      },
+      {
+        id: 53,
+        question: "A 45-year-old woman with bitemporal hemianopia and amenorrhea is diagnosed with a non-functioning pituitary adenoma. Which of the following is the most common histologic subtype?",
+        options: [
+          "Gonadotroph adenoma",
+          "Somatotroph adenoma",
+          "Lactotroph adenoma",
+          "Corticotroph adenoma"
+        ],
+        answer: 0,
+        hint: "These adenomas produce inefficiently folded glycoprotein hormone subunits (FSH/LH) and rarely elevate serum levels.",
+        roast: "Non-functioning clinically doesn't mean non-secreting histologically. Gonadotroph adenomas are the silent giants.",
+        explanation: "Most clinically 'non-functioning' or 'silent' pituitary macroadenomas stain positively for gonadotropins (FSH, LH, or their alpha/beta subunits), making gonadotroph adenomas the most frequent histologic subtype."
+      },
+      {
+        id: 54,
+        question: "Which of the following is the primary pathological finding in Type 2 Diabetes Mellitus?",
+        options: [
+          "Autoimmune destruction of beta cells",
+          "Amyloid deposition in pancreatic islets",
+          "Lymphocytic infiltration of pancreatic islets",
+          "Absence of insulin receptors"
+        ],
+        answer: 1,
+        hint: "Look for insoluble pink eosinophilic deposits derived from amylin.",
+        roast: "Type 1 brings the cytotoxic T-cells; Type 2 leaves behind amyloid graveyard plaques.",
+        explanation: "Type 2 DM is characterized pathologically by progressive islet amyloidosis caused by aggregation of islet amyloid polypeptide (amylin), contributing to chronic beta-cell loss."
+      },
+      {
+        id: 55,
+        question: "A patient with acromegaly undergoes surgery for a pituitary adenoma. Immunohistochemical staining is most likely to be positive for which of the following?",
+        options: [
+          "TSH",
+          "ACTH",
+          "GH",
+          "Prolactin"
+        ],
+        answer: 2,
+        hint: "Somatotrophs stain intensely for this growth-promoting polypeptide.",
+        roast: "Acromegaly = Somatotroph tumor = Growth Hormone (GH) staining. Straightforward diagnosis.",
+        explanation: "The clinical manifestations of acromegaly result from direct somatotroph adenoma hypersecretion of Growth Hormone (GH), verified on immunohistochemistry by strong positivity for cytoplasmic GH."
+      },
+      {
+        id: 56,
+        question: "Which of the following is a distinguishing feature of anaplastic thyroid carcinoma?",
+        options: [
+          "Psammoma bodies",
+          "High mitotic rate and pleomorphic tumor cells",
+          "Capsular invasion without metastasis",
+          "Calcitonin secretion"
+        ],
+        answer: 1,
+        hint: "One of the most rapidly fatal malignancies known to medicine, characterized by complete loss of differentiation.",
+        roast: "Anaplastic means wild, uncontrolled, pleomorphic, and malignant. No neat little follicles here.",
+        explanation: "Anaplastic thyroid carcinoma is a high-grade, undifferentiated malignant neoplasm characterized histologically by spindle cells, giant pleomorphic multinucleated cells, high mitotic activity, and necrosis."
+      },
+      {
+        id: 57,
+        question: "A 30-year-old man presents with multiple mucosal neuromas, medullary thyroid carcinoma, and pheochromocytoma. Which syndrome is most likely?",
+        options: [
+          "MEN1",
+          "MEN2A",
+          "MEN2B",
+          "Von Hippel-Lindau syndrome"
+        ],
+        answer: 2,
+        hint: "Marfanoid habitus plus neuromas on tongue and lips.",
+        roast: "Repeat question, same mistake? MEN2B features neuromas; MEN2A features parathyroid hyperplasia!",
+        explanation: "Multiple Endocrine Neoplasia type 2B features medullary thyroid carcinoma, pheochromocytoma, and widespread mucosal neuromas."
+      },
+      {
+        id: 58,
+        question: "Which of the following molecular alterations is characteristic of multiple endocrine neoplasia type 1 (MEN1)?",
+        options: [
+          "RET proto-oncogene mutation",
+          "Inactivating mutation of MEN1 gene",
+          "Activating mutation of GNAS gene",
+          "Overexpression of PAX8/PPARγ"
+        ],
+        answer: 1,
+        hint: "Loss of the tumor suppressor protein menin on chromosome 11q13.",
+        roast: "Menin is a classic tumor suppressor gene. Knudson's two-hit hypothesis means you must inactivate it!",
+        explanation: "MEN1 is an autosomal dominant syndrome caused by loss-of-function (inactivating) germline mutations in the MEN1 tumor suppressor gene encoding the scaffold protein menin."
+      },
+      {
+        id: 59,
+        question: "Which of the following findings is most characteristic of pituitary apoplexy?",
+        options: [
+          "Sudden-onset headache and ophthalmoplegia",
+          "Progressive hyperpigmentation",
+          "Bilateral adrenal hyperplasia",
+          "Enlargement of hands and feet"
+        ],
+        answer: 0,
+        hint: "Acute ischemic infarction or catastrophic hemorrhage into a pre-existing macroadenoma.",
+        roast: "Thunderclap headache followed by cranial nerve palsies is an endocrine emergency: Pituitary Apoplexy.",
+        explanation: "Pituitary apoplexy is caused by acute hemorrhage or infarction of a pituitary adenoma, presenting with sudden severe retro-orbital headache, diplopia/ophthalmoplegia (CN III, IV, VI compression), and acute hypopituitarism."
+      },
+      {
+        id: 60,
+        question: "A 60-year-old woman with a long-standing goiter presents with sudden pain and rapid thyroid enlargement. Which of the following is the most likely cause?",
+        options: [
+          "Hemorrhage into a thyroid nodule",
+          "Thyroid lymphoma",
+          "Subacute granulomatous thyroiditis",
+          "Anaplastic thyroid carcinoma"
+        ],
+        answer: 0,
+        hint: "Acute nodular apoplexy following spontaneous vessel rupture.",
+        roast: "Malignancies take weeks or months to grow; sudden, excruciating, overnight enlargement means bleeding into a preexisting cyst or nodule.",
+        explanation: "Sudden, acute onset of severe localized neck pain accompanied by rapid expansion of a thyroid nodule in a patient with longstanding multinodular goiter is characteristically caused by intrathyroidal hemorrhage into a nodule."
+      },
+      {
+        id: 61,
+        question: "Which of the following adrenal tumors is most likely to be malignant?",
+        options: [
+          "Aldosterone-producing adenoma",
+          "Cortisol-producing adenoma",
+          "Adrenal cortical carcinoma",
+          "Pheochromocytoma"
+        ],
+        answer: 2,
+        hint: "Benign adenomas are common incidentalomas; frank adrenocortical carcinomas are aggressive malignancies.",
+        roast: "Carcinoma literally means malignant epithelial neoplasm! Don't let the word adenoma trick you.",
+        explanation: "An adrenocortical carcinoma (ACC) is inherently a high-grade malignant cancer with poor survival, unlike adenomas and the majority (~90%) of pheochromocytomas."
+      },
+      {
+        id: 62,
+        question: "A 45-year-old woman presents with episodic hypoglycemia and confusion. Laboratory findings show increased insulin and C-peptide levels. Which of the following is the most likely diagnosis?",
+        options: [
+          "Factitious hypoglycemia",
+          "Insulinoma",
+          "Glucagonoma",
+          "Pheochromocytoma"
+        ],
+        answer: 1,
+        hint: "If C-peptide is high, the insulin is endogenous, ruling out surreptitious insulin injections.",
+        roast: "Endogenous insulin comes with C-peptide! It's an insulinoma, not a covert pharmacy heist.",
+        explanation: "Elevated insulin combined with elevated C-peptide rules out factitious insulin administration (which has low/absent C-peptide), confirming an endogenous insulin-secreting tumor (insulinoma)."
+      },
+      {
+        id: 63,
+        question: "A pheochromocytoma arises from which of the following cell types?",
+        options: [
+          "Zona fasciculata cells",
+          "Chromaffin cells of the adrenal medulla",
+          "Parafollicular C-cells of the thyroid",
+          "Langerhans beta cells"
+        ],
+        answer: 1,
+        hint: "Neural crest-derived neuroendocrine cells staining brown with chromium salts.",
+        roast: "Chromaffin cells produce catecholamines. The cortex has nothing to do with this.",
+        explanation: "Pheochromocytomas arise specifically from catecholamine-secreting chromaffin cells of the adrenal medulla (or extra-adrenal paraganglia)."
+      },
+      {
+        id: 64,
+        question: "Which of the following genetic mutations is most commonly associated with medullary thyroid carcinoma?",
+        options: [
+          "RAS mutation",
+          "RET proto-oncogene mutation",
+          "BRAF mutation",
+          "P53 mutation"
+        ],
+        answer: 1,
+        hint: "Receptor tyrosine kinase driving parafollicular C-cell neoplasia.",
+        roast: "BRAF is Papillary; RET is Medullary. Do not cross the thyroid streams.",
+        explanation: "Activating germline mutations in the RET proto-oncogene account for nearly 100% of hereditary medullary thyroid carcinomas and ~50% of sporadic cases."
+      },
+      {
+        id: 65,
+        question: "In a patient with long-standing Hashimoto thyroiditis, which of the following malignancies is most likely to develop?",
+        options: [
+          "Anaplastic thyroid carcinoma",
+          "Follicular thyroid carcinoma",
+          "Papillary thyroid carcinoma",
+          "Primary thyroid lymphoma"
+        ],
+        answer: 3,
+        hint: "Persistent autoimmune antigenic drive and lymphoid germinal centers transform into a B-cell malignancy.",
+        roast: "All those chronic germinal centers and lymphocytes eventually give rise to Non-Hodgkin B-cell Lymphoma. Huge board favorite.",
+        explanation: "Patients with long-standing Hashimoto thyroiditis harbor a dramatically increased relative risk (~60-fold) for developing primary thyroid lymphoma (predominantly diffuse large B-cell lymphoma)."
+      },
+      {
+        id: 66,
+        question: "A 22-year-old male develops polyuria and polydipsia after a traumatic brain injury. Water deprivation testing shows no response to desmopressin and diagnosed to have diabetes insipidus. Where is the defect localized?",
+        options: [
+          "Hypothalamic neurohypophysis",
+          "Renal collecting ducts",
+          "Anterior pituitary",
+          "Pancreatic β-cells"
+        ],
+        answer: 1,
+        hint: "If the kidney fails to concentrate urine despite exogenous ADH, the defect is peripheral.",
+        roast: "If desmopressin does nothing, your pituitary is off the hook! The kidneys are ignoring the signal.",
+        explanation: "Lack of response to exogenous ADH (desmopressin) defines nephrogenic diabetes insipidus, localizing the pathology to impaired V2 receptor/aquaporin signaling in the renal collecting ducts."
+      },
+      {
+        id: 67,
+        question: "A patient with a rapidly enlarging thyroid mass and dysphagia is diagnosed with anaplastic thyroid carcinoma. Which of the following features is most commonly seen on histology?",
+        options: [
+          "Well-formed follicles lined by cuboidal epithelium",
+          "Large pleomorphic cells with frequent mitoses",
+          "Psammoma bodies and nuclear inclusions",
+          "Amyloid deposition between tumor cells"
+        ],
+        answer: 1,
+        hint: "Severe nuclear anaplasia and loss of thyroid architecture.",
+        roast: "It's called anaplastic for a reason. Well-formed follicles are long gone.",
+        explanation: "Anaplastic thyroid carcinomas present histologically with marked cellular pleomorphism, bizarre giant cells, spindle-shaped cells, and extensive atypical mitoses with areas of coagulative necrosis."
+      },
+      {
+        id: 68,
+        question: "Which of the following is the most common cause of primary hyperparathyroidism?",
+        options: [
+          "Parathyroid carcinoma",
+          "Parathyroid adenoma",
+          "Hyperplasia of all four parathyroid glands",
+          "Ectopic parathyroid tissue"
+        ],
+        answer: 1,
+        hint: "Solitary single-gland expansion accounts for over 80% of all cases.",
+        roast: "Missed this one again? Solitary parathyroid adenoma is the undisputed heavyweight champion of primary hyperparathyroidism.",
+        explanation: "Solitary parathyroid adenomas account for roughly 85–90% of all primary hyperparathyroidism presentations."
+      },
+      {
+        id: 69,
+        question: "In patients with congenital adrenal hyperplasia due to 21-hydroxylase deficiency, which of the following biochemical abnormalities is expected?",
+        options: [
+          "Hypertension and hypernatremia",
+          "Hyperkalemia and hypotension",
+          "Elevated aldosterone levels",
+          "Decreased 17-hydroxyprogesterone levels"
+        ],
+        answer: 1,
+        hint: "Mineralocorticoid and glucocorticoid pathways are blocked; precursors are shunted to androgens.",
+        roast: "No 21-hydroxylase = no aldosterone = salt wasting! Hypotension and hyperkalemia follow immediately.",
+        explanation: "Loss of 21-hydroxylase prevents production of aldosterone and cortisol. Lack of aldosterone causes renal salt wasting, leading to hyponatremia, hyperkalemia, hypovolemia, and severe hypotension."
+      },
+      {
+        id: 70,
+        question: "A 50-year-old woman presents with headaches, visual disturbances, and menstrual irregularities. MRI reveals a pituitary mass. What is the most common hormonal abnormality in this condition?",
+        options: [
+          "Increased GH",
+          "Increased ACTH",
+          "Increased Prolactin",
+          "Decreased TSH"
+        ],
+        answer: 2,
+        hint: "The most common functional adenoma, or secondary stalk-effect hypersecretion.",
+        roast: "Prolactinomas reign supreme in pituitary pathology. Hyperprolactinemia causes her amenorrhea.",
+        explanation: "Prolactinomas are the single most common functional pituitary tumors (~30–40%). Furthermore, any non-functioning mass compressing the pituitary stalk eliminates dopamine inhibition, driving elevated prolactin."
+      }
+    ];
+
+    let userAnswers = {};
+
+    function applyTheme(theme) {
+      document.documentElement.dataset.theme = theme;
+      document.getElementById("themeToggle").textContent =
+        theme === "dark" ? "White Mode" : "Dark Mode";
+      localStorage.setItem("pathology-mcq-theme", theme);
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.dataset.theme || "light";
+      applyTheme(currentTheme === "dark" ? "light" : "dark");
+    }
+
+    applyTheme(localStorage.getItem("pathology-mcq-theme") || "light");
+
+    function renderQuiz() {
+      const container = document.getElementById("quizContainer");
+      container.innerHTML = "";
+
+      quizData.forEach((q, idx) => {
+        const card = document.createElement("div");
+        card.className = "mcq-card";
+        card.id = `q-card-${idx}`;
+
+        const questionHeader = document.createElement("div");
+        questionHeader.className = "question-header";
+
+        const questionStem = document.createElement("div");
+        questionStem.className = "question-stem";
+        questionStem.textContent = `${idx + 1}. ${q.question}`;
+        questionHeader.appendChild(questionStem);
+
+        const hintBtn = document.createElement("button");
+        hintBtn.className = "hint-btn";
+        hintBtn.textContent = "💡 Need a Hint?";
+        hintBtn.onclick = () => toggleHint(idx);
+        questionHeader.appendChild(hintBtn);
+
+        card.appendChild(questionHeader);
+
+        const hintBox = document.createElement("div");
+        hintBox.className = "hint-box";
+        hintBox.id = `hint-${idx}`;
+        hintBox.innerHTML = `<strong>Hint:</strong> ${q.hint}`;
+        card.appendChild(hintBox);
+
+        const optionsGrid = document.createElement("div");
+        optionsGrid.className = "options-grid";
+
+        q.options.forEach((optText, optIdx) => {
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.dataset.questionIndex = idx;
+          btn.dataset.optionIndex = optIdx;
+          btn.innerHTML = `<span style="font-weight:600; margin-right:8px;">${String.fromCharCode(65 + optIdx)}.</span> ${optText}`;
+          btn.onclick = () => handleSelectOption(idx, optIdx);
+          optionsGrid.appendChild(btn);
+        });
+
+        card.appendChild(optionsGrid);
+
+        const roastEl = document.createElement("div");
+        roastEl.className = "roast-banner";
+        roastEl.id = `roast-${idx}`;
+        card.appendChild(roastEl);
+
+        const explanationEl = document.createElement("div");
+        explanationEl.className = "explanation-panel";
+        explanationEl.id = `explanation-${idx}`;
+        explanationEl.innerHTML = `<strong>Explanation:</strong> ${q.explanation}`;
+        card.appendChild(explanationEl);
+
+        container.appendChild(card);
+      });
+    }
+
+    function toggleHint(idx) {
+      const hintBox = document.getElementById(`hint-${idx}`);
+      hintBox.style.display = hintBox.style.display === "block" ? "none" : "block";
+    }
+
+    function handleSelectOption(questionIdx, selectedOptIdx) {
+      if (userAnswers[questionIdx] !== undefined) return;
+
+      userAnswers[questionIdx] = selectedOptIdx;
+      const question = quizData[questionIdx];
+      const card = document.getElementById(`q-card-${questionIdx}`);
+      const buttons = card.querySelectorAll(".option-btn");
+      const roastEl = document.getElementById(`roast-${questionIdx}`);
+
+      buttons.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === question.answer) {
+          btn.classList.add("correct");
+        } else if (idx === selectedOptIdx) {
+          btn.classList.add("incorrect");
+        }
+      });
+
+      if (selectedOptIdx !== question.answer) {
+        roastEl.textContent = `💀 ${question.roast}`;
+        roastEl.style.display = "block";
+      }
+
+      const explanationEl = document.getElementById(`explanation-${questionIdx}`);
+      explanationEl.style.display = "block";
+
+      updateScore();
+    }
+
+    function updateScore() {
+      const { correctCount, totalAnswered } = getScoreSummary();
+
+      document.getElementById("scoreTracker").textContent = 
+        `Score: ${correctCount} / ${totalAnswered} answered (${quizData.length} total)`;
+    }
+
+    function getScoreSummary() {
+      let correctCount = 0;
+      const totalAnswered = Object.keys(userAnswers).length;
+
+      for (const [qIdx, ansIdx] of Object.entries(userAnswers)) {
+        if (quizData[qIdx].answer === ansIdx) {
+          correctCount++;
+        }
+      }
+
+      return { correctCount, totalAnswered };
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function getAnsweredResults() {
+      return Object.entries(userAnswers).map(([qIdx, selectedOptIdx]) => {
+        const question = quizData[qIdx];
+        return {
+          number: Number(qIdx) + 1,
+          question: question.question,
+          selectedAnswer: question.options[selectedOptIdx],
+          correctAnswer: question.options[question.answer],
+          isCorrect: selectedOptIdx === question.answer,
+          explanation: question.explanation
+        };
+      });
+    }
+
+    function exportResults() {
+      const results = getAnsweredResults();
+      if (results.length === 0) {
+        alert("Answer at least one question before exporting your results.");
+        return;
+      }
+
+      const { correctCount, totalAnswered } = getScoreSummary();
+      const rows = [
+        ["Pathology MCQ Results"],
+        [`Score: ${correctCount} / ${totalAnswered}`],
+        [],
+        ["Question", "Your answer", "Correct answer", "Result", "Explanation"],
+        ...results.map((result) => [
+          `${result.number}. ${result.question}`,
+          result.selectedAnswer,
+          result.correctAnswer,
+          result.isCorrect ? "Correct" : "Incorrect",
+          result.explanation
+        ])
+      ];
+      const csv = rows
+        .map((row) => row.map((cell) => `"${String(cell ?? "").replace(/"/g, '""')}"`).join(","))
+        .join("\r\n");
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `pathology-mcq-results-${new Date().toISOString().slice(0, 10)}.csv`;
+      link.click();
+      URL.revokeObjectURL(link.href);
+    }
+
+    function printResults() {
+      const results = getAnsweredResults();
+      if (results.length === 0) {
+        alert("Answer at least one question before printing your results.");
+        return;
+      }
+
+      const { correctCount, totalAnswered } = getScoreSummary();
+      const reportWindow = window.open("", "_blank", "noopener,noreferrer");
+      if (!reportWindow) {
+        alert("Allow pop-ups to print your results.");
+        return;
+      }
+
+      const resultMarkup = results.map((result) => `
+        <article class="result ${result.isCorrect ? "correct" : "incorrect"}">
+          <h2>${result.number}. ${escapeHtml(result.question)}</h2>
+          <p><strong>Your answer:</strong> ${escapeHtml(result.selectedAnswer)}</p>
+          <p><strong>Correct answer:</strong> ${escapeHtml(result.correctAnswer)}</p>
+          <p><strong>Explanation:</strong> ${escapeHtml(result.explanation)}</p>
+        </article>
+      `).join("");
+
+      reportWindow.document.write(`<!doctype html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <title>Pathology MCQ Results</title>
+            <style>
+              body { font-family: Arial, sans-serif; color: #0f172a; margin: 32px; line-height: 1.5; }
+              h1 { margin-bottom: 4px; }
+              .summary { color: #475569; margin-bottom: 24px; }
+              .result { border: 1px solid #cbd5e1; border-left: 5px solid #64748b; padding: 14px 18px; margin: 0 0 16px; break-inside: avoid; }
+              .result.correct { border-left-color: #10b981; }
+              .result.incorrect { border-left-color: #ef4444; }
+              h2 { font-size: 1rem; margin: 0 0 10px; }
+              p { margin: 5px 0; }
+              @media print { body { margin: 18mm; } }
+            </style>
+          </head>
+          <body>
+            <h1>Pathology MCQ Results</h1>
+            <p class="summary">Score: ${correctCount} / ${totalAnswered} answered (${quizData.length} total)</p>
+            ${resultMarkup}
+          </body>
+        </html>`);
+      reportWindow.document.close();
+      reportWindow.focus();
+      reportWindow.print();
+    }
+
+    function resetQuiz() {
+      userAnswers = {};
+      renderQuiz();
+      document.getElementById("scoreTracker").textContent = `Score: 0 / 0 answered (${quizData.length} total)`;
+    }
+
+    renderQuiz();
+  </script>
+</body>
+</html>
